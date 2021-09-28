@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    var emojis = ["🚂", "🚜", "🏎", "🚑"]
+    
     var body: some View {
         HStack {
-            ForEach(0..<4) { index in
-                CardView()
-            }
+            CardView(content: emojis[0])
+            CardView(content: emojis[1])
+            CardView(content: emojis[2])
+            CardView(content: emojis[3])
+
         }
             .padding()
             .foregroundColor(Color.purple)
@@ -21,23 +25,67 @@ struct ContentView: View {
 }
 
 struct CardView: View {
-    var isFaceUp: Bool = true
+    var content: String
+    @State var isFaceUp: Bool = true
     
     var body: some View {
         ZStack {
+            let shape = RoundedRectangle(cornerRadius: 20)
             if isFaceUp {
-                RoundedRectangle(cornerRadius: 10.0).fill(Color.white)
-                RoundedRectangle(cornerRadius: 10.0).stroke(lineWidth: 3)
-                Text("👻")
+                shape
+                    .fill(Color.white)
+                shape
+                    .stroke(lineWidth: 3)
+                Text(content)
             } else {
-                RoundedRectangle(cornerRadius: 10.0).fill()
+                shape.fill()
             }
+        }
+        .onTapGesture {
+            isFaceUp = !isFaceUp
         }
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .previewDevice("iPhone 13 mini")
+        /*ContentView()
+            .preferredColorScheme(.dark)
+            .previewDevice("iPhone 13 mini")
+        */
+            
     }
 }
