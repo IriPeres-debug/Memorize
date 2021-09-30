@@ -8,19 +8,48 @@
 import SwiftUI
 
 struct ContentView: View {
-    var emojis = ["🚂", "🚜", "🏎", "🚑"]
-    
+    var emojis = ["🚂", "🚜", "🏎", "🚑", "🚗", "🚕", "🚌", "🚎", "🚓", "🚒", "🛴", "🚲", "🛵", "🏍", "✈️", "🚀", "🚁", "⛵️", "🚡", "🚆", "🚤", "🛺", "🚅", "🚈"]
+    @State var emojiCount = 4
     var body: some View {
-        HStack {
-            CardView(content: emojis[0])
-            CardView(content: emojis[1])
-            CardView(content: emojis[2])
-            CardView(content: emojis[3])
-
-        }
-            .padding()
+        VStack {
+            LazyVGrid (columns: [GridItem(), GridItem(), GridItem()]) {
+                ForEach(emojis[0..<emojiCount], id: \.self) { emoji in
+                    CardView(content: emoji)
+                }
+            }
             .foregroundColor(Color.purple)
-            .font(Font.largeTitle)
+            Spacer()
+            HStack {
+                remove
+                Spacer()
+                add
+            }
+            .padding(.horizontal)
+            .font(.largeTitle)
+        }
+        .padding(.horizontal)
+    }
+    
+    var remove: some View {
+        Button {
+            if emojiCount > 1 {
+                emojiCount -= 1
+            }
+        } label: {
+            Image(systemName: "minus.circle")
+                .padding(.top)
+                
+        }
+    }
+    var add: some View {
+        Button {
+            if emojiCount < emojis.count {
+                emojiCount += 1
+            }
+        } label: {
+            Image(systemName: "plus.circle")
+                .padding(.top)
+        }
     }
 }
 
@@ -36,7 +65,7 @@ struct CardView: View {
                     .fill(Color.white)
                 shape
                     .stroke(lineWidth: 3)
-                Text(content)
+                Text(content).font(Font.largeTitle)
             } else {
                 shape.fill()
             }
